@@ -36,7 +36,8 @@ void playerAttack(FighterStats& player, FighterStats& boss, bool& hitSuccess)
     {
         boss.hp = 0;
     }
-
+//čte toto vůbec někdo?
+    
     std::cout << "Hrac udelil " << damage << " poskozeni.\n";
     hitSuccess = true;
 }
