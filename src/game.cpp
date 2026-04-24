@@ -30,6 +30,7 @@ void runGame()
     while (player.hp > 0 && boss.hp > 0)
     {
         bool hitSuccess = false;
+        bool defending = false;
 
         showStatus(player, boss);
         showPlayerMenu();
@@ -41,13 +42,19 @@ void runGame()
             case 1:
                 playerAttack(player, boss, hitSuccess);
                 break;
+
             case 2:
-                std::cout << "You defend and prepare for the next attack.\n";
-                player.defense += 1;
+                defending = true;
+                player.defense += 2;
+                std::cout << "Hrac se pripravil na utok bosse.\n";
                 break;
+
             case 3:
-                std::cout << "You rest and recover.\n";
-                applyRegeneration(player);
+                applyAttackBuff(player);
+                break;
+
+            case 4:
+                applyDefenseBuff(player);
                 break;
         }
 
@@ -61,12 +68,14 @@ void runGame()
         handleVextilePassive(boss, player, state);
         applyRegeneration(boss);
         bossAttack(boss, player);
-        updateStealEffect(player, state);
+        updateStealEffect(player, boss, state);
 
-        if (choice == 2)
+        if (defending)
         {
-            player.defense -= 1;
+            player.defense -= 2;
         }
+
+        applyRegeneration(player);
     }
 
     showEndMessage(player.hp > 0);

@@ -9,6 +9,7 @@ void initVextileState(VextileState& state)
     state.playerHitStreak = 0;
     state.stolenStat = -1;
     state.stealTurnsLeft = 0;
+    state.stolenValue = 0;
 }
 
 void handleVextilePassive(FighterStats& boss, FighterStats& player, VextileState& state)
@@ -38,7 +39,8 @@ void handleVextilePassive(FighterStats& boss, FighterStats& player, VextileState
             break;
         case 3:
             boss.critChance += value * 5;
-            std::cout << "Vextile zvysil sanci na kriticky zasah o " << value * 5 << "%.\n";
+            std::cout << "Vextile zvysil sanci na kriticky zasah o " << value * 5 << "%.
+";
             break;
     }
 
@@ -56,39 +58,51 @@ void handleVextilePassive(FighterStats& boss, FighterStats& player, VextileState
         int stolen = std::rand() % 4;
         state.stolenStat = stolen;
         state.stealTurnsLeft = 2;
+        state.stolenValue = 0;
 
         switch (stolen)
         {
             case 0:
-                if (player.attack > 1)
+                state.stolenValue = 2;
+                if (player.attack < state.stolenValue)
                 {
-                    player.attack -= 2;
-                    boss.attack += 2;
+                    state.stolenValue = player.attack;
                 }
+                player.attack -= state.stolenValue;
+                boss.attack += state.stolenValue;
                 std::cout << "Vextile ukradl hraci utok na 2 kola.\n";
                 break;
+
             case 1:
-                if (player.defense > 0)
+                state.stolenValue = 1;
+                if (player.defense < state.stolenValue)
                 {
-                    player.defense -= 1;
-                    boss.defense += 1;
+                    state.stolenValue = player.defense;
                 }
+                player.defense -= state.stolenValue;
+                boss.defense += state.stolenValue;
                 std::cout << "Vextile ukradl hraci obranu na 2 kola.\n";
                 break;
+
             case 2:
-                if (player.regeneration > 0)
+                state.stolenValue = 1;
+                if (player.regeneration < state.stolenValue)
                 {
-                    player.regeneration -= 1;
-                    boss.regeneration += 1;
+                    state.stolenValue = player.regeneration;
                 }
+                player.regeneration -= state.stolenValue;
+                boss.regeneration += state.stolenValue;
                 std::cout << "Vextile ukradl hraci regeneraci na 2 kola.\n";
                 break;
+
             case 3:
-                if (player.critChance >= 5)
+                state.stolenValue = 5;
+                if (player.critChance < state.stolenValue)
                 {
-                    player.critChance -= 5;
-                    boss.critChance += 5;
+                    state.stolenValue = player.critChance;
                 }
+                player.critChance -= state.stolenValue;
+                boss.critChance += state.stolenValue;
                 std::cout << "Vextile ukradl hraci kritickou sanci na 2 kola.\n";
                 break;
         }
@@ -109,7 +123,7 @@ void updateHitStreak(VextileState& state, bool hitSuccess)
     }
 }
 
-void updateStealEffect(FighterStats& player, VextileState& state)
+void updateStealEffect(FighterStats& player, FighterStats& boss, VextileState& state)
 {
     if (state.stealTurnsLeft > 0)
     {
@@ -120,21 +134,26 @@ void updateStealEffect(FighterStats& player, VextileState& state)
             switch (state.stolenStat)
             {
                 case 0:
-                    player.attack += 2;
+                    player.attack += state.stolenValue;
+                    boss.attack -= state.stolenValue;
                     break;
                 case 1:
-                    player.defense += 1;
+                    player.defense += state.stolenValue;
+                    boss.defense -= state.stolenValue;
                     break;
                 case 2:
-                    player.regeneration += 1;
+                    player.regeneration += state.stolenValue;
+                    boss.regeneration -= state.stolenValue;
                     break;
                 case 3:
-                    player.critChance += 5;
+                    player.critChance += state.stolenValue;
+                    boss.critChance -= state.stolenValue;
                     break;
             }
 
             std::cout << "Ukradena statistika byla vracena.\n";
             state.stolenStat = -1;
+            state.stolenValue = 0;
         }
     }
 }

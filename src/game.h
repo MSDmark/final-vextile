@@ -17,6 +17,7 @@ struct VextileState
     int playerHitStreak;
     int stolenStat;
     int stealTurnsLeft;
+    int stolenValue;
 };
 
 void runGame();

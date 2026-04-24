@@ -6,6 +6,6 @@
 void initVextileState(VextileState& state);
 void handleVextilePassive(FighterStats& boss, FighterStats& player, VextileState& state);
 void updateHitStreak(VextileState& state, bool hitSuccess);
-void updateStealEffect(FighterStats& player, VextileState& state);
+void updateStealEffect(FighterStats& player, FighterStats& boss, VextileState& state);
 
 #endif

@@ -9,5 +9,7 @@ void playerAttack(FighterStats& player, FighterStats& boss, bool& hitSuccess);
 void bossAttack(FighterStats& boss, FighterStats& player);
 void applyRegeneration(FighterStats& fighter);
 void resetPlayerBonuses(FighterStats& player);
+void applyAttackBuff(FighterStats& player);
+void applyDefenseBuff(FighterStats& player);
 
 #endif

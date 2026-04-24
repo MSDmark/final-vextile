@@ -36,8 +36,7 @@ void playerAttack(FighterStats& player, FighterStats& boss, bool& hitSuccess)
     {
         boss.hp = 0;
     }
-//čte toto vůbec někdo?
-    
+
     std::cout << "Hrac udelil " << damage << " poskozeni.\n";
     hitSuccess = true;
 }
@@ -60,4 +59,34 @@ void bossAttack(FighterStats& boss, FighterStats& player)
     }
 
     std::cout << "Boss udelil " << damage << " poskozeni.\n";
+}
+
+void applyRegeneration(FighterStats& fighter)
+{
+    fighter.hp += fighter.regeneration;
+
+    if (fighter.hp > fighter.maxHp)
+    {
+        fighter.hp = fighter.maxHp;
+    }
+}
+
+void resetPlayerBonuses(FighterStats& player)
+{
+    player.attack = 10;
+    player.defense = 3;
+    player.regeneration = 2;
+    player.critChance = 15;
+}
+
+void applyAttackBuff(FighterStats& player)
+{
+    player.attack += 1;
+    std::cout << "Hrac si zvysil utok o 1.\n";
+}
+
+void applyDefenseBuff(FighterStats& player)
+{
+    player.defense += 1;
+    std::cout << "Hrac si zvysil obranu o 1.\n";
 }

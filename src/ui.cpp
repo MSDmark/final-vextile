@@ -29,7 +29,8 @@ void showPlayerMenu()
     std::cout << "\nVyber akci:\n";
     std::cout << "1. Utok\n";
     std::cout << "2. Obrana\n";
-    std::cout << "3. Odpocinek\n";
+    std::cout << "3. Zvysit utok\n";
+    std::cout << "4. Zvysit obranu\n";
     std::cout << "Volba: ";
 }
 
@@ -45,16 +46,16 @@ int getPlayerChoice()
         {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Neplatny vstup. Zadej 1, 2 nebo 3: ";
+            std::cout << "Neplatny vstup. Zadej 1 az 4: ";
             continue;
         }
 
-        if (choice >= 1 && choice <= 3)
+        if (choice >= 1 && choice <= 4)
         {
             return choice;
         }
 
-        std::cout << "Neplatna volba. Zadej 1, 2 nebo 3: ";
+        std::cout << "Neplatna volba. Zadej 1 az 4: ";
     }
 }
 
